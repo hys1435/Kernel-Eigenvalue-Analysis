@@ -24,6 +24,8 @@ def compute_gram_mat(X1, X2, kernel, params = None):
     gram_mat = np.zeros((X1.shape[0],X2.shape[0]))
     for i, itemi in enumerate(X1):
         for j, itemj in enumerate(X2):
+            #print(itemi)
+            #print(itemj)
             gram_mat[i,j] = kernel(itemi, itemj, params)
     return gram_mat
 
@@ -37,7 +39,10 @@ def eigen_n_sphere(N, ndim, kernel, params = None):
     np.take(X, ind, axis = 0, out = X)
     np.take(y, ind, axis = 0, out = y)
     K = compute_gram_mat(X, X, kernel, params)
+    #print("matrix: ", 1/N * K)
     w, v = np.linalg.eig(1/N * K)
+    #print("value: ", w)
+    w = w.real # ignore complex parts (CAUTION: only valid if it's small)
     w = -np.sort(-w)
     d = dict()
     d['data'] = X
