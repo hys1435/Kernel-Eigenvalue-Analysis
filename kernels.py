@@ -19,7 +19,7 @@ def k2(x, y, lambda_0 = 1):
 
 def k3(x, y, rho):
 	xy = np.minimum(np.dot(x,y), 1)
-	return 1/(1-2*rho*xy+rho**2)
+	return 1/np.sqrt(1-2*rho*xy+rho**2)
 
 def k4(x, y, kappa):
 	xy = np.minimum(np.dot(x,y), 1)
