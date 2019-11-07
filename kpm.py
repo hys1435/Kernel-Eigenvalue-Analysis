@@ -59,7 +59,7 @@ def select_D(K, y, D_max, C):
         mse = np.mean((y - x_pred)**2)
         total[D-1] = mse + pen_D(N, D, C)
     tot_min = np.amin(total)
-    #print("total: ", total)
+    print("total: ", total)
     D_opt = np.where(total == tot_min)[0][0]
     mse_opt = tot_min - pen_D(N, D_opt, C)
     #print("D_opt: ", D_opt)

@@ -28,6 +28,9 @@ from sklearn.utils import check_random_state
 from kpm import select_D, gaussianRBF, compute_gram_mat, kpca, compute_coeff_fixD
 from KRR_algorithm_copy import compute_kernel_ridge_coeffs, predict
 from sklearn.kernel_ridge import KernelRidge
+from KernelProjectedMachineRegressor import KPMRegressor
+from sklearn.model_selection import GridSearchCV
+from sklearn.utils.estimator_checks import check_estimator
 
 
 print(__doc__)
@@ -37,8 +40,8 @@ print(__doc__)
 
 # Turn down for faster convergence
 t0 = time.time()
-train_samples = 1000
-test_samples=10000
+train_samples = 200
+test_samples=1000
 
 # Load data from https://www.openml.org/d/554
 X, y = fetch_openml('mnist_784', version=1, return_X_y=True)
@@ -71,7 +74,7 @@ clf = LogisticRegression(C=50. / train_samples, solver='saga', tol = 0.01) # def
 clf.fit(X_train, y_train)
 score = clf.score(X_test, y_test)
 y_pred = clf.predict(X_test)
-print("y_pred: ", y_pred)
+#print("y_pred: ", y_pred)
 mse_lr = np.mean((y_test - y_pred)**2)
 
 # Self-written Kernel Ridge Regression
@@ -111,12 +114,23 @@ print("Shape of coeffs_opt: ", coeffs_opt.shape)
 y_pred = Phi_test @ coeffs_opt
 mse_kpm_test = np.mean((y_test - y_pred)**2)
 
+# Kernel Projection Machine Regressor
+clf3 = KPMRegressor()
+#check_estimator(clf3)
+parameters = {'C':[0.2, 0.5, 1], 'sigma':[10, 20, 30]}
+cv = GridSearchCV(clf3, parameters, cv=5)
+cv.fit(X_train, y_train)
+y_pred = cv.predict(X_test)
+print("y_pred: ", y_pred)
+mse_kpmreg = np.mean((y_test - y_pred)**2)
+score = cv.score(X_test, y_test)
 
 print("Test score logistic regression with L2 penalty: %.4f" % score)
 print("Mean-squared error for logistic regression: %.4f" % mse_lr)
 #print("Mean-squared error for kernel ridge regression: %.4f" % mse_krr)
-print("Mean-squared error for kernel ridge regression self: %.4f" % mse_krr_self)
+#print("Mean-squared error for kernel ridge regression self: %.4f" % mse_krr_self)
 print("Mean-squared error for kernel projection machine: %.4f" % mse_kpm_test)
+print("Mean-squared error for kernel projection machine regressor: %.4f" % mse_kpmreg)
 
 coef = clf.coef_.copy()
 plt.figure(figsize=(10, 5))
