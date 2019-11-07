@@ -1,5 +1,7 @@
 import numpy as np
-from kpm import select_D, kpca, compute_gram_mat, gaussianRBF
+from kpm import select_D, kpca
+from kernels import gaussianRBF
+from helper_fun import compute_gram_mat
 import time
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
@@ -77,11 +79,6 @@ def main():
     plt.xlabel("sigma")
     plt.ylabel("Mean square error")
     plt.savefig("kpm_lr_krr")
-
-
-
-
-    fig, ax = plt.subplots()
 
 if __name__ == '__main__':
      main()

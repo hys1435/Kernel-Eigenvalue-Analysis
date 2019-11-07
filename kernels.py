@@ -2,7 +2,7 @@
 import numpy as np
 
 def gaussianRBF(u, v, sigma):
-    return np.exp(-np.einsum('ij,ij->i',u-v,u-v)/(2*sigma**2))
+    return np.exp(-np.linalg.norm(u-v)**2/(2*sigma**2))
 
 def arccos(u, v, params):
     theta = np.dot(u, v) / (np.linalg.norm(u) * np.linalg.norm(v))
@@ -24,3 +24,9 @@ def k3(x, y, rho):
 def k4(x, y, kappa):
 	xy = np.minimum(np.dot(x,y), 1)
 	return kappa * np.exp(kappa * xy) / (4*np.pi*np.sinh(kappa))
+
+def sobolev(u, v, params):
+    return 1 + np.minimum(u, v)
+
+#def gaussianRBF(u, v, sigma):
+#    return np.exp(-np.einsum('ij,ij->i',u-v,u-v)/(2*sigma**2))

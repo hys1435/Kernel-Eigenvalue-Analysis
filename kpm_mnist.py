@@ -25,8 +25,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import check_random_state
-from kpm import select_D, gaussianRBF, compute_gram_mat, kpca, compute_coeff_fixD
-from KRR_algorithm_copy import compute_kernel_ridge_coeffs, predict
+from KRR_algorithm_copy import KRRRegressor
 from sklearn.kernel_ridge import KernelRidge
 from KernelProjectedMachineRegressor import KPMRegressor
 from sklearn.model_selection import GridSearchCV
@@ -80,44 +79,25 @@ mse_lr = np.mean((y_test - y_pred)**2)
 # Self-written Kernel Ridge Regression
 sigma = 20
 lam = 1/train_samples
-K = compute_gram_mat(X_train, X_train, gaussianRBF, sigma)
-alpha = compute_kernel_ridge_coeffs(X_train, y_train, [sigma, lam], "gaussian")
-y_pred = predict(X_train, X_test, alpha, 1, [sigma], "gaussian") # m = 1
+clf4 = KRRRegressor(kernel = 'gaussian', sigma = 20, lam = lam)
+clf4.fit(X_train, y_train)
+# score2 = clf2.score(X_test, y_test)
+y_pred = clf4.predict(X_test)
 mse_krr_self = np.mean((y_test - y_pred)**2)
 
-"""
 # Kernel Ridge Regression
-clf2 = KernelRidge(kernel = 'rbf', gamma = 1/(2*sigma**2))
-clf2.fit(X_train, y_train)
+#clf2 = KernelRidge(kernel = 'rbf', gamma = 1/(2*sigma**2))
+#clf2.fit(X_train, y_train)
 # score2 = clf2.score(X_test, y_test)
-y_pred = clf2.predict(X_test)
-mse_krr = np.mean((y_test - y_pred)**2)
-"""
+#y_pred = clf2.predict(X_test)
+#mse_krr = np.mean((y_test - y_pred)**2)
+#print("Mean-squared error for kernel ridge regression: %.4f" % mse_krr)
 
-
-# Kernel Projection Machine
-C = 0.5
-D_max = 50
-print("K: ", K[0:10])
-print("shape of K: ", K.shape)
-print("number of nonzero elements in K: ", np.count_nonzero(K))
-
-D_opt, mse_kpm_train = select_D(K, y_train, D_max, C)
-print("optimal D: ", D_opt)
-K_test = compute_gram_mat(X_test, X_train, gaussianRBF, sigma)
-Alpha, Lam = kpca(K, D_opt)
-print("Shape of Alpha: ", Alpha.shape)
-Phi_test = K_test @ Alpha / np.sqrt(train_samples)
-print("Shape of Phi_test: ", Phi_test.shape)
-coeffs_opt, _ = compute_coeff_fixD(K, y_train, D_opt)
-print("Shape of coeffs_opt: ", coeffs_opt.shape)
-y_pred = Phi_test @ coeffs_opt
-mse_kpm_test = np.mean((y_test - y_pred)**2)
 
 # Kernel Projection Machine Regressor
 clf3 = KPMRegressor()
 #check_estimator(clf3)
-parameters = {'C':[0.2, 0.5, 1], 'sigma':[10, 20, 30]}
+parameters = {'C':[0.2, 0.5], 'sigma':[10, 20]}
 cv = GridSearchCV(clf3, parameters, cv=5)
 cv.fit(X_train, y_train)
 y_pred = cv.predict(X_test)
@@ -127,9 +107,7 @@ score = cv.score(X_test, y_test)
 
 print("Test score logistic regression with L2 penalty: %.4f" % score)
 print("Mean-squared error for logistic regression: %.4f" % mse_lr)
-#print("Mean-squared error for kernel ridge regression: %.4f" % mse_krr)
-#print("Mean-squared error for kernel ridge regression self: %.4f" % mse_krr_self)
-print("Mean-squared error for kernel projection machine: %.4f" % mse_kpm_test)
+print("Mean-squared error for kernel ridge regression self: %.4f" % mse_krr_self)
 print("Mean-squared error for kernel projection machine regressor: %.4f" % mse_kpmreg)
 
 coef = clf.coef_.copy()

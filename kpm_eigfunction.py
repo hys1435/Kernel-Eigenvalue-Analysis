@@ -7,7 +7,9 @@ Created on Thu Oct 31 15:08:34 2019
 """
 
 import numpy as np
-from kpm import select_D, kpca, compute_gram_mat, gaussianRBF
+from kpm import select_D, kpca
+from helper_fun import compute_gram_mat
+from kernels import gaussianRBF
 import matplotlib.pyplot as plt
 
 def f_star(x):

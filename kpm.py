@@ -12,16 +12,6 @@ def power(A, tol = 1e-4, max_iter = 500):
         ct += 1
     return (v_new, lambda_k)
 
-def compute_gram_mat(X1, X2, kernel, params = None):
-    gram_mat = np.zeros((X1.shape[0],X2.shape[0]))
-    for i, itemi in enumerate(X1):
-        for j, itemj in enumerate(X2):
-            gram_mat[i,j] = kernel(itemi, itemj, params)
-    return gram_mat
-
-def gaussianRBF(u, v, sigma):
-    return np.exp(-np.linalg.norm(u-v)**2/(2*sigma**2))
-
 def kpca(K, k):
     m = K.shape[0]
     Alpha = np.zeros((m,k))
@@ -59,7 +49,7 @@ def select_D(K, y, D_max, C):
         mse = np.mean((y - x_pred)**2)
         total[D-1] = mse + pen_D(N, D, C)
     tot_min = np.amin(total)
-    print("total: ", total)
+    #print("total: ", total)
     D_opt = np.where(total == tot_min)[0][0]
     mse_opt = tot_min - pen_D(N, D_opt, C)
     #print("D_opt: ", D_opt)
