@@ -39,8 +39,8 @@ print(__doc__)
 
 # Turn down for faster convergence
 t0 = time.time()
-train_samples = 200
-test_samples=1000
+train_samples = 400
+test_samples=2000
 
 # Load data from https://www.openml.org/d/554
 X, y = fetch_openml('mnist_784', version=1, return_X_y=True)
@@ -97,9 +97,13 @@ mse_krr_self = np.mean((y_test - y_pred)**2)
 # Kernel Projection Machine Regressor
 clf3 = KPMRegressor()
 #check_estimator(clf3)
-parameters = {'C':[0.2, 0.5], 'sigma':[10, 20]}
+parameters = {'C':[0.3, 0.4, 0.5, 0.6, 0.7, 0.8], 'sigma':[20, 30, 40, 50, 100]}
 cv = GridSearchCV(clf3, parameters, cv=5)
 cv.fit(X_train, y_train)
+print("Best parameters set found on development set:")
+print()
+print(cv.best_params_)
+print()
 y_pred = cv.predict(X_test)
 print("y_pred: ", y_pred)
 mse_kpmreg = np.mean((y_test - y_pred)**2)
@@ -110,18 +114,37 @@ print("Mean-squared error for logistic regression: %.4f" % mse_lr)
 print("Mean-squared error for kernel ridge regression self: %.4f" % mse_krr_self)
 print("Mean-squared error for kernel projection machine regressor: %.4f" % mse_kpmreg)
 
-coef = clf.coef_.copy()
+kpm_best = KPMRegressor(C=cv.best_params_['C'], sigma = cv.best_params_['sigma'])
+kpm_best.fit(X_train, y_train)
+y_pred = cv.predict(X_test)
+mse_kpm = np.mean((y_test - y_pred)**2)
+print("Mean-squared error for kernel projection machine: %.4f" % mse_kpm)
+
+coef = kpm_best.Phi_opt.copy()
 plt.figure(figsize=(10, 5))
 scale = np.abs(coef).max()
-for i in range(10):
-    l1_plot = plt.subplot(2, 5, i + 1)
+for i in range(kpm_best.D_opt):
+    l1_plot = plt.subplot(10, 5, i + 1)
     l1_plot.imshow(coef[i].reshape(28, 28), interpolation='nearest',
                    cmap=plt.cm.RdBu, vmin=-scale, vmax=scale)
     l1_plot.set_xticks(())
     l1_plot.set_yticks(())
     l1_plot.set_xlabel('Class %i' % i)
-plt.suptitle('Classification vector for...')
+plt.suptitle('Classification vector for MNIST Logistic Regression')
 
 run_time = time.time() - t0
 print('Example run in %.3f s' % run_time)
+plt.show()
+
+coef = cv.Phi_opt_.copy()
+plt.figure(figsize=(10, 5))
+scale = np.abs(coef).max()
+for i in range(clf3.D_opt):
+    l1_plot = plt.subplot(10, 5, i + 1)
+    l1_plot.imshow(coef[i].reshape(28, 28), interpolation='nearest',
+                   cmap=plt.cm.RdBu, vmin=-scale, vmax=scale)
+    l1_plot.set_xticks(())
+    l1_plot.set_yticks(())
+    l1_plot.set_xlabel('Class %i' % i)
+plt.suptitle('Classification vector for MNIST KPM')
 plt.show()

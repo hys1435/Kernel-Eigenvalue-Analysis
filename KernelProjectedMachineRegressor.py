@@ -41,13 +41,14 @@ class KPMRegressor(BaseEstimator, RegressorMixin):
         else:
             D_opt = np.where(total == tot_min)[0][0]
         mse_opt = tot_min - pen_D(N, D_opt, self.C)
-        coeffs_opt, _ = compute_coeff_fixD(K, y, D_opt)
+        coeffs_opt, Phi_opt = compute_coeff_fixD(K, y, D_opt)
         Alpha, Lam = kpca(K, D_opt)
         self.D_opt = D_opt
         self.mse_opt = mse_opt
         self.coeffs_opt = coeffs_opt
         self.X_fit_ = X
         self.Alpha = Alpha
+        self.Phi_opt = Phi_opt
         # Return the classifier
         return self
 
