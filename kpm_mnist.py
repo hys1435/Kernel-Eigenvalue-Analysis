@@ -1,21 +1,3 @@
-"""
-=====================================================
-MNIST classfification using multinomial logistic + L1
-=====================================================
-
-Here we fit a multinomial logistic regression with L1 penalty on a subset of
-the MNIST digits classification task. We use the SAGA algorithm for this
-purpose: this a solver that is fast when the number of samples is significantly
-larger than the number of features and is able to finely optimize non-smooth
-objective functions which is the case with the l1-penalty. Test accuracy
-reaches > 0.8, while weight vectors remains *sparse* and therefore more easily
-*interpretable*.
-
-Note that this accuracy of this l1-penalized linear model is significantly
-below what can be reached by an l2-penalized linear model or a non-linear
-multi-layer perceptron model on this dataset.
-
-"""
 import time
 import matplotlib.pyplot as plt
 import numpy as np
@@ -30,12 +12,6 @@ from sklearn.kernel_ridge import KernelRidge
 from KernelProjectedMachineRegressor import KPMRegressor
 from sklearn.model_selection import GridSearchCV
 from sklearn.utils.estimator_checks import check_estimator
-
-
-print(__doc__)
-
-# Author: Arthur Mensch <arthur.mensch@m4x.org>
-# License: BSD 3 clause
 
 # Turn down for faster convergence
 t0 = time.time()
