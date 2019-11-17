@@ -5,7 +5,7 @@ from sklearn.utils.multiclass import unique_labels
 from sklearn.metrics import euclidean_distances
 from kpm import compute_coeff_fixD, pen_D, kpca
 from helper_fun import compute_gram_mat
-from kernels import gaussianRBF
+from kernels import gaussianRBF, arccos
 
 class KPMRegressor(BaseEstimator, RegressorMixin):
     def __init__(self, C=0.5, D_max=50, kernel="gaussian", sigma=20, other_params=None):
@@ -14,11 +14,16 @@ class KPMRegressor(BaseEstimator, RegressorMixin):
         self.D_max = D_max
         self.kernel = kernel
         self.sigma = sigma
+        self.kernel_params = None
         self.other_params = other_params
 
     def _get_kernel_fun(self, kernel):
         if (kernel == "gaussian"):
+            self.kernel_params = sigma
             return gaussianRBF
+        if (kernel == "arccos"):
+            return arccos
+
 
 
     def fit(self, X, y):
@@ -26,7 +31,7 @@ class KPMRegressor(BaseEstimator, RegressorMixin):
         X, y = check_X_y(X, y)
         # Compute the coefficients
         self.kernel_fun = self._get_kernel_fun(self.kernel)
-        K = compute_gram_mat(X, X, self.kernel_fun, self.sigma)
+        K = compute_gram_mat(X, X, self.kernel_fun, self.kernel_params)
         N = K.shape[0]
         total = np.zeros(self.D_max-1)
         for D in range(1, self.D_max):
@@ -58,7 +63,7 @@ class KPMRegressor(BaseEstimator, RegressorMixin):
         # Input validation
         X = check_array(X)
         train_samples = self.X_fit_.shape[0]
-        K_test = compute_gram_mat(X, self.X_fit_, self.kernel_fun, self.sigma)
+        K_test = compute_gram_mat(X, self.X_fit_, self.kernel_fun, self.kernel_params)
         Phi_test = K_test @ self.Alpha / np.sqrt(train_samples)
         y_pred = Phi_test @ self.coeffs_opt
         self.y_pred = y_pred

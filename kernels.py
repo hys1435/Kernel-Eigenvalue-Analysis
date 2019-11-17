@@ -28,5 +28,15 @@ def k4(x, y, kappa):
 def sobolev(u, v, params):
     return 1 + np.minimum(u, v)
 
+def std_legendre_gen_kernel(x, y, rho):
+	xy = np.minimum(np.dot(x,y), 1)
+	return (1-rho)/np.sqrt(1-2*rho*xy+rho**2)
+
+# explicit kernel using eigenfunction, phi is a function with additional params
+def kernel_of_phi(phi):
+    def ker(x, y, params):
+        return np.dot(phi(x), phi(y))
+    return ker
+
 #def gaussianRBF(u, v, sigma):
 #    return np.exp(-np.einsum('ij,ij->i',u-v,u-v)/(2*sigma**2))
