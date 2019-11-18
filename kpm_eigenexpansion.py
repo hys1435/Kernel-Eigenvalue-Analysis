@@ -18,8 +18,7 @@ def main():
     # Experiments
     N = 200
     X = init_sim_data_2_sphere(N)
-    params = None
-    K = compute_gram_mat(X, X, arccos, params)
+    K = compute_gram_mat(X, X, arccos)
     D = 3 # take the first three dimension
     Alpha, Lam = kpca(K, D)
 
@@ -40,6 +39,6 @@ def main():
     Phi = K @ Alpha / np.sqrt(N)
     coeffs = np.linalg.solve(Phi.transpose() @ Phi, Phi.transpose() @ y)
     print("predicted coeffs: ", coeffs)
-
+    
 if __name__ == '__main__':
      main()
