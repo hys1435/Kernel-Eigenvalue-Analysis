@@ -16,18 +16,18 @@ import matplotlib.pyplot as plt
 def main():
     # ------------ Plot the eigenfunctions of the arccos kernel ---------------
     # Experiments
-    N = 200
+    N = 400
     X = init_sim_data_2_sphere(N)
     K = compute_gram_mat(X, X, arccos)
     D = 3 # take the first three dimension
     Alpha, Lam = kpca(K, D)
     # Create a sphere
-    npoints = 40
+    npoints = 50
     r = 1
     pi = np.pi
     cos = np.cos
     sin = np.sin
-    phi, theta = np.mgrid[0:pi:40j, 0:2 * pi:40j]
+    phi, theta = np.mgrid[0:pi:50j, 0:2 * pi:50j]
     
     # convert to 2d matrices
     XX = r * sin(phi) * cos(theta) # 50x50
@@ -65,6 +65,7 @@ def main():
         
         fig.colorbar(m, shrink=0.5, aspect=5)
         plt.show()
+        plt.savefig("{}th eigfunction of arccos kernel".format(i+1))
 
 if __name__ == '__main__':
      main()
