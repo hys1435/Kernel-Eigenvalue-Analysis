@@ -25,24 +25,23 @@ def init_sim_data(N):
     return X, y
 
 def main():
-    np.random.seed(123)
+    #np.random.seed(123)
     start_time = time.time()
-    N_lst = np.array([100, 200, 500, 800, 1000])
+    N_lst = np.array([50, 100, 150, 200, 250])
     D_max = 4
-    sim_num = 5
-    mse_kpm_lst = np.zeros((5, 10, sim_num))
-    D_opt_lst = np.zeros((5, 10))
-    mse_lr_lst = np.zeros((5, 10, sim_num))
-    mse_krr_lst = np.zeros((5, 10, sim_num))
+    sim_num = 10
+    mse_kpm_lst = np.zeros((N_lst.size, sim_num))
+    mse_lr_lst = np.zeros((N_lst.size, sim_num))
+    mse_krr_lst = np.zeros((N_lst.size, sim_num))
     for i, N in enumerate(N_lst):
-        X, y = init_sim_data(N)
         for k in range(sim_num): 
+            X, y = init_sim_data(N)
             clf3 = KPMRegressor(D_max = D_max, sigma=0.2)
             parameters = {'C':[0.02, 0.04, 0.06], 'sigma':[0.05, 0.1, 0.15, 0.2]}
-            cv3 = GridSearchCV(clf3, parameters, cv=5)
+            cv3 = GridSearchCV(clf3, parameters, cv=5, error_score = 'raise')
             cv3.fit(X.reshape(-1, 1), y)
             y_pred = cv3.predict(X.reshape(-1, 1))
-            mse_kpm_lst = np.mean((y - y_pred)**2)
+            mse_kpm_lst[i,k] = np.mean((y - y_pred)**2)
     		    
             clf = LinearRegression()
             clf.fit(X.reshape(-1, 1), y)
@@ -64,7 +63,6 @@ def main():
     
 
     print("kpm err lst: ", mse_kpm_lst)
-    print("D_opt lst: ", D_opt_lst)
     print("ls err lst: ", mse_lr_lst)
     print("krr err lst: ", mse_krr_lst)
 	
@@ -76,7 +74,7 @@ def main():
     ax.errorbar(N_lst, mse_lr, yerr = mse_lr_err, c=cols[1], marker=markers[1],label='Linear Regression',capsize=5)
     ax.errorbar(N_lst, mse_krr, yerr = mse_krr_err, c=cols[2], marker=markers[2],label='Kernel Ridge Regression',capsize=5)
     plt.legend(loc='upper right')
-    plt.xlabel("sigma")
+    plt.xlabel("N")
     plt.ylabel("Mean square error")
     plt.savefig("kpm_lr_krr_N")
 

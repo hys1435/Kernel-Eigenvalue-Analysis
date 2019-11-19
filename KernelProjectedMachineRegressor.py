@@ -42,9 +42,10 @@ class KPMRegressor(BaseEstimator, RegressorMixin):
         tot_min = np.amin(total)
         D_opt_lst = np.where(total == tot_min)
         if (np.isnan(D_opt_lst)):
+            print("NaN get!")
             D_opt = 0
         else:
-            D_opt = np.where(total == tot_min)[0][0]
+            D_opt = np.where(total == tot_min)[0][0] + 1
         mse_opt = tot_min - pen_D(N, D_opt, self.C)
         coeffs_opt, Phi_opt = compute_coeff_fixD(K, y, D_opt)
         Alpha, Lam = kpca(K, D_opt)

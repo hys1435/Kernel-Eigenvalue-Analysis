@@ -65,7 +65,7 @@ def main():
         
         fig.colorbar(m, shrink=0.5, aspect=5)
         plt.show()
-        plt.savefig("{}th eigfunction of arccos kernel".format(i+1))
+        #plt.savefig("{}th eigfunction of arccos kernel".format(i+1))
 
 if __name__ == '__main__':
      main()
