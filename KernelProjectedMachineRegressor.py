@@ -19,7 +19,7 @@ class KPMRegressor(BaseEstimator, RegressorMixin):
 
     def _get_kernel_fun(self, kernel):
         if (kernel == "gaussian"):
-            self.kernel_params = sigma
+            self.kernel_params = self.sigma
             return gaussianRBF
         if (kernel == "arccos"):
             return arccos

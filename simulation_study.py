@@ -18,6 +18,7 @@ def init_sim_data(N):
     return X, y
 
 def main():
+    np.random.seed(123)
     start_time = time.time()
     N = 500
     X, y = init_sim_data(N)
