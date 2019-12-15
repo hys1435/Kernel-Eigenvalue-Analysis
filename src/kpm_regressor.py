@@ -4,8 +4,7 @@ from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 from sklearn.utils.multiclass import unique_labels
 from sklearn.metrics import euclidean_distances
 from kpm import compute_coeff_fixD, pen_D, kpca
-from helper_fun import compute_gram_mat
-from kernels import gaussianRBF, arccos
+from kernels import gaussianRBF, arccos, compute_gram_mat
 
 class KPMRegressor(BaseEstimator, RegressorMixin):
     def __init__(self, C=0.5, D_max=50, kernel="gaussian", sigma=20, other_params=None):

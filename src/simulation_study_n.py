@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Nov 18 13:41:09 2019
+Code for simulation study of KRR, KPM and linear regression algorithms. 
 
-@author: zli9
+@author: Zhaoqi Li
 """
 
 import numpy as np
-from KernelProjectedMachineRegressor import KPMRegressor
+from kpm_regressor import KPMRegressor
 from sklearn.model_selection import GridSearchCV
 import time
 import matplotlib.pyplot as plt

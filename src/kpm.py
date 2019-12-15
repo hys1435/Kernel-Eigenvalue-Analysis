@@ -1,3 +1,7 @@
+"""
+Code to implement the KPM algorithm.
+"""
+
 import numpy as np
 
 def power(A, tol = 1e-4, max_iter = 500):
@@ -23,8 +27,6 @@ def kpca(K, k):
         K = K - lam * np.outer(v, v) # substract lam_1^2 * v * v^T
         v, lam = power(K)
         Alpha[:,i] = v/np.sqrt(lam) # alpha is the normalized eigenvector
-        #print("norm: ", np.linalg.norm(Alpha[:,i]))
-        # Alpha[:,i] = v/lam # compensate for 1/sqrt(lam) in equation 18 - probably wrong
         Lam[i] = lam
     return (Alpha, Lam)
 
@@ -49,11 +51,8 @@ def select_D(K, y, D_max, C):
         mse = np.mean((y - x_pred)**2)
         total[D-1] = mse + pen_D(N, D, C)
     tot_min = np.amin(total)
-    #print("total: ", total)
-    D_opt = np.where(total == tot_min)[0][0]
+    D_opt = np.argmin(total)
     mse_opt = tot_min - pen_D(N, D_opt, C)
-    #print("D_opt: ", D_opt)
-    #coeffs_opt = compute_coeff_fixD(K, D_opt, params, dist_metric)
     return (D_opt, mse_opt)
 
 

@@ -1,7 +1,6 @@
 import numpy as np
 from kpm import select_D, kpca
-from kernels import gaussianRBF
-from helper_fun import compute_gram_mat
+from kernels import gaussianRBF, compute_gram_mat
 import time
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression

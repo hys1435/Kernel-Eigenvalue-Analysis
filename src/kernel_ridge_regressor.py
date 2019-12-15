@@ -9,10 +9,9 @@ Created on Mon Apr 22 21:48:30 2019
 # Kernel Ridge Regression Algorithm reproducing results from zhang15d paper
 
 import numpy as np
-from helper_fun import compute_gram_mat
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
-from kernels import gaussianRBF
+from kernels import gaussianRBF, compute_gram_mat
 
 class KRRRegressor(BaseEstimator, RegressorMixin):
     def __init__(self, kernel="gaussian", sigma=20, lam=1, other_params=None):

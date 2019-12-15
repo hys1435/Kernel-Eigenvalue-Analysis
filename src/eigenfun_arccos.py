@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Nov 17 16:42:28 2019
+Code to plot the eigenfunctions of the arccos kernel. 
 
-@author: hys1435
+@author: Zhaoqi Li
 """
 import numpy as np
 from kpm import kpca
-from helper_fun import compute_gram_mat, init_sim_data_2_sphere
-from kernels import arccos
+from helper_fun import init_sim_data_2_sphere
+from kernels import arccos, compute_gram_mat
 
 import matplotlib
 import matplotlib.pyplot as plt
 
 def main():
-    # ------------ Plot the eigenfunctions of the arccos kernel ---------------
+    # ------------  ---------------
     # Experiments
     N = 400
     X = init_sim_data_2_sphere(N)

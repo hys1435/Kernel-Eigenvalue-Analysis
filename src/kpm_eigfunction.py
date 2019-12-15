@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Oct 31 15:08:34 2019
+Code for plotting the eigenfunction of f_star function given below. 
 
-@author: hys1435
+@author: Zhaoqi Li
 """
 
 import numpy as np
 from kpm import select_D, kpca
-from helper_fun import compute_gram_mat
-from kernels import gaussianRBF
+from kernels import gaussianRBF, compute_gram_mat
 import matplotlib.pyplot as plt
 
 def f_star(x):

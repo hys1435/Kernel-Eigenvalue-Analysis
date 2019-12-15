@@ -1,3 +1,7 @@
+"""
+Code for KPM, KRR, logistic regression on MNIST dataset. 
+"""
+
 import time
 import matplotlib.pyplot as plt
 import numpy as np
@@ -7,11 +11,12 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import check_random_state
-from KRR_algorithm_copy import KRRRegressor
 from sklearn.kernel_ridge import KernelRidge
-from KernelProjectedMachineRegressor import KPMRegressor
 from sklearn.model_selection import GridSearchCV
 from sklearn.utils.estimator_checks import check_estimator
+
+from kpm_regressor import KPMRegressor
+from kernel_ridge_regressor import KRRRegressor
 
 # Turn down for faster convergence
 t0 = time.time()
@@ -28,28 +33,19 @@ y = y[permutation]
 X = X.reshape((X.shape[0], -1))
 
 y = y.astype(dtype=int)
-#print("data: ", X[0:10])
-#print("label: ", y[0:10])
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=train_samples, test_size=test_samples)
 
-#print("shape of X: ", X_train.shape)
-#print("number of nonzero elements in X: ", np.count_nonzero(X_train))
-
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
-
-#print("shape of X: ", X_train.shape)
-#print("number of nonzero elements in X: ", np.count_nonzero(X_train))
 
 # Turn up tolerance for faster convergence
 clf = LogisticRegression(C=50. / train_samples, solver='saga', tol = 0.01) # default l2 penalty
 clf.fit(X_train, y_train)
 score = clf.score(X_test, y_test)
 y_pred = clf.predict(X_test)
-#print("y_pred: ", y_pred)
 mse_lr = np.mean((y_test - y_pred)**2)
 
 # Self-written Kernel Ridge Regression

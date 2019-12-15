@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Oct 31 15:08:34 2019
+Code for plotting the prediction error of coefficients of eigenfunctions with respect to noise. 
 
 @author: Zhaoqi Li
 """
 
 import numpy as np
 from kpm import select_D, kpca
-from helper_fun import compute_gram_mat, init_sim_data_2_sphere
-from kernels import arccos
+from helper_fun import init_sim_data_2_sphere
+from kernels import arccos, compute_gram_mat
 import matplotlib.pyplot as plt
 
 def generate_coeffs(n):

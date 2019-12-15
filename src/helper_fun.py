@@ -11,8 +11,6 @@ def init_sim_data_sphere(npoints, ndim=2):
 def init_sim_data_2_sphere(npoints, ndim = 2):
     phi = np.random.random([npoints]) * 2 * np.pi
     costheta = 2 * (np.random.random([npoints]) - 1/2)
-    #print(phi)
-    #print(costheta)
     theta = np.arccos(costheta)
     x = np.sin(theta) * np.cos(phi)
     y = np.sin(theta) * np.sin(phi)
@@ -30,13 +28,6 @@ def split_into_m_parts(X, m):
     for i in range(m):
         res[i] = X[i*n:(i+1)*n]
     return res
-
-def compute_gram_mat(X1, X2, kernel, params = None):
-    gram_mat = np.zeros((X1.shape[0],X2.shape[0]))
-    for i, itemi in enumerate(X1):
-        for j, itemj in enumerate(X2):
-            gram_mat[i,j] = kernel(itemi, itemj, params)
-    return gram_mat
 
 """
 def compute_gram_mat(X1, X2, params, dist_metric):

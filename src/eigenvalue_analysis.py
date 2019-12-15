@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed May 29 23:33:24 2019
+Code to check the polynomial decay of the eigenvalues. 
 
 @author: hys1435
 """
 
 import numpy as np
-from helper_fun import eigen_n_sphere, compute_gram_mat
-from kernels import arccos
+from helper_fun import eigen_n_sphere
+from kernels import arccos, compute_gram_mat
 import matplotlib.pyplot as plt
 
 # eigenvalues for dim = 2
@@ -21,12 +21,6 @@ w = d['eig_val']
 
 Nls = np.power(np.linspace(start = 1, stop = N, num = N), -2)
 wl = w / Nls
-#wl = w / np.exp(-np.linspace(start = 1, stop = N, num = N))
-#print("eigenvalues: ", w)
-#eigbd = N * np.exp(-np.linspace(start = 1, stop = N, num = N))
-#np.set_printoptions(formatter={'float_kind':'{:f}'.format})
-#print("eigbound: ", eigbd)
-#print("diff: ", eigbd - w)
 fig, ax1 = plt.subplots()
 ax1.plot(w)
 plt.xlabel("Index")
