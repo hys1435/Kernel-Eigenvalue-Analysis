@@ -5,9 +5,13 @@ Code for simulation study of KRR, KPM and linear regression algorithms.
 
 @author: Zhaoqi Li
 """
+import os
+import sys
+
+sys.path.append('..')
 
 import numpy as np
-from kpm_regressor import KPMRegressor
+from helper.kpm_regressor import KPMRegressor
 from sklearn.model_selection import GridSearchCV
 import time
 import matplotlib.pyplot as plt

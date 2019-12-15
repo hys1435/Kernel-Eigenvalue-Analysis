@@ -6,9 +6,14 @@ Code for plotting the eigenfunction of f_star function given below.
 @author: Zhaoqi Li
 """
 
+import os
+import sys
+
+sys.path.append('..')
+
 import numpy as np
-from kpm import select_D, kpca
-from kernels import gaussianRBF, compute_gram_mat
+from helper.kpm import select_D, kpca
+from helper.kernels import gaussianRBF, compute_gram_mat
 import matplotlib.pyplot as plt
 
 def f_star(x):

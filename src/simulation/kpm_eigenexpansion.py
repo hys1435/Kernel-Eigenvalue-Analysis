@@ -6,10 +6,15 @@ Code for plotting the prediction error of coefficients of eigenfunctions with re
 @author: Zhaoqi Li
 """
 
+import os
+import sys
+
+sys.path.append('..')
+
 import numpy as np
-from kpm import select_D, kpca
-from helper_fun import init_sim_data_2_sphere
-from kernels import arccos, compute_gram_mat
+from helper.kpm import select_D, kpca
+from helper.helper_fun_spheres import init_sim_data_2_sphere
+from helper.kernels import arccos, compute_gram_mat
 import matplotlib.pyplot as plt
 
 def generate_coeffs(n):

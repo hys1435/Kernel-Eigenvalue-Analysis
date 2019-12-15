@@ -5,13 +5,20 @@ Code to plot the eigenfunctions of the arccos kernel.
 
 @author: Zhaoqi Li
 """
+
+import os
+import sys
+
+sys.path.append('..')
+
 import numpy as np
-from kpm import kpca
-from helper_fun import init_sim_data_2_sphere
-from kernels import arccos, compute_gram_mat
+from helper.kpm import kpca
+from helper.helper_fun_spheres import init_sim_data_2_sphere
+from helper.kernels import arccos, compute_gram_mat
 
 import matplotlib
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 def main():
     # ------------  ---------------

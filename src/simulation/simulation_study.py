@@ -1,6 +1,15 @@
+"""
+Code for simulation study of KRR, KPM, and linear regression algorithms.
+"""
+
+import os
+import sys
+
+sys.path.append('..')
+
 import numpy as np
-from kpm import select_D, kpca
-from kernels import gaussianRBF, compute_gram_mat
+from helper.kpm import select_D, kpca
+from helper.kernels import gaussianRBF, compute_gram_mat
 import time
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression

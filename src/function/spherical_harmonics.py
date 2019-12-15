@@ -6,11 +6,16 @@ Created on Thu Oct 31 15:08:34 2019
 @author: hys1435
 """
 
+import os
+import sys
+
+sys.path.append('..')
+
 import numpy as np
 from scipy.special import gegenbauer, legendre, comb
-from kpm import select_D, kpca
-from helper_fun import init_sim_data_2_sphere
-from kernels import gaussianRBF, arccos, compute_gram_mat, kernel_of_phi
+from helper.kpm import select_D, kpca
+from helper.helper_fun_spheres import init_sim_data_2_sphere
+from helper.kernels import gaussianRBF, arccos, compute_gram_mat, kernel_of_phi
 import matplotlib.pyplot as plt
 
 

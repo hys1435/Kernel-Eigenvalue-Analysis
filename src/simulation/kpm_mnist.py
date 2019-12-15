@@ -1,6 +1,10 @@
 """
 Code for KPM, KRR, logistic regression on MNIST dataset. 
 """
+import os
+import sys
+
+sys.path.append('..')
 
 import time
 import matplotlib.pyplot as plt
@@ -15,8 +19,8 @@ from sklearn.kernel_ridge import KernelRidge
 from sklearn.model_selection import GridSearchCV
 from sklearn.utils.estimator_checks import check_estimator
 
-from kpm_regressor import KPMRegressor
-from kernel_ridge_regressor import KRRRegressor
+from helper.kpm_regressor import KPMRegressor
+from helper.kernel_ridge_regressor import KRRRegressor
 
 # Turn down for faster convergence
 t0 = time.time()
